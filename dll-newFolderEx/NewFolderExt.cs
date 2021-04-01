@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Drawing;
+﻿using SharpShell.Attributes;
 using SharpShell.SharpContextMenu;
-using System.Runtime.InteropServices;
-using SharpShell.Attributes;
 using System.Collections;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace dll_newFolderEx
 {
@@ -30,7 +27,8 @@ namespace dll_newFolderEx
             {
                 //TODO: 图标
                 Text = Properties.Resources.context_menu_text,
-                Image = Properties.Resources.icon_nf.ToBitmap()
+                Image = Properties.Resources._16
+                
             };
             create_folder_context_item.Click += (sender, args) => CreateFolder();
             menu.Items.Add(create_folder_context_item);
@@ -46,10 +44,11 @@ namespace dll_newFolderEx
             foreach (var filepath in SelectedItemPaths)
             {
                 builder.AppendLine(filepath);
-                pathlist.Add(filepath);                
+                pathlist.Add(filepath);
             }
             NewFolderForm form = new NewFolderForm(pathlist);
             form.ShowDialog();
         }
     }
+
 }

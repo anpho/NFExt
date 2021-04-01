@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Text;
 using System.Windows.Forms;
 
 namespace dll_newFolderEx
@@ -10,35 +11,25 @@ namespace dll_newFolderEx
         public NewFolderForm(ArrayList args)
         {
             if (args.Count < 1) return;
-
+            
             files = (string[])args.ToArray(typeof(string));
+
             InitializeComponent();
-            try
-            {
-                tb1.Text = Find_the_same();
-                tb1.Focus();
-                tb1.SelectAll();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                this.Close();
-            }
+
         }
 
-
-        string Find_the_same()
+        public string Find_the_same()
         {
             string[] filenames = new string[files.Length];
             Array.Copy(files, filenames, files.Length);
-            
+
             for (int i = 0; i < filenames.Length; i++)
             {
                 filenames[i] = System.IO.Path.GetFileNameWithoutExtension(filenames[i]);
             }
 
             // 确定最短的文件名长度
-            int minLength = 0;
+            int minLength = int.MaxValue;
             foreach (var f in filenames)
             {
                 minLength = Math.Min(f.Length, minLength);
@@ -59,7 +50,7 @@ namespace dll_newFolderEx
                     bool same = true;
                     for (int j = 1; j < ptr.Length; j++)
                     {
-                        if (!filenames[j].Substring(pos, 1).Equals(filenames[0].Substring(pos, 1)))
+                        if (!filenames[j].Substring(pos, 1).ToLower().Equals(filenames[0].Substring(pos, 1).ToLower()))
                         {
                             same = false;
                         }
@@ -74,7 +65,6 @@ namespace dll_newFolderEx
                 }
                 else
                 {
-                    //TODO: 需要移除尾部的.符号
                     return filenames[0].Substring(0, pos);
                 }
 
@@ -84,15 +74,15 @@ namespace dll_newFolderEx
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (tb1.Text.Length < 1)
+            if (textbox_common.Text.Length < 1)
             {
                 return;
             }
             this.Enabled = false;
-            tb1.Enabled = false;
+            textbox_common.Enabled = false;
             // create folder
             string current_folder = System.IO.Path.GetDirectoryName(files[0]);
-            string new_folder = System.IO.Path.Combine(current_folder, tb1.Text);
+            string new_folder = System.IO.Path.Combine(current_folder, textbox_common.Text);
             if (!System.IO.Directory.Exists(new_folder))
             {
                 try
@@ -108,11 +98,8 @@ namespace dll_newFolderEx
             // move files
             for (int i = 0; i < files.Length; i++)
             {
-                //TODO: 需要补充文件夹操作
                 string filename = System.IO.Path.GetFileName(files[i]);
-
                 string new_filename = System.IO.Path.Combine(new_folder, filename);
-                //TODO: 需要补充错误逻辑
 
                 if (System.IO.Directory.Exists(files[i]))
                 {
@@ -135,7 +122,6 @@ namespace dll_newFolderEx
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
-
                         this.Close();
                     }
                 }
@@ -145,10 +131,45 @@ namespace dll_newFolderEx
 
         private void tb1_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Enter to perform action
             if (e.KeyChar == (char)Keys.Enter)
             {
                 button1.PerformClick();
             }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                this.Close();
+            }
+        }
+
+        private void NewFolderForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            //// Esc to close window
+            //if (e.KeyCode == Keys.Escape)
+            //{
+            //    this.Close();
+            //}
+        }
+
+        private void NewFolderForm_Load(object sender, EventArgs e)
+        {
+            textbox_common.Text = Find_the_same();
+        }
+
+        private void NewFolderForm_Activated(object sender, EventArgs e)
+        {
+            textbox_common.Focus();
+            textbox_common.SelectAll();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var f in files)
+            {
+                sb.AppendLine(f);
+            }
+            MessageBox.Show(sb.ToString(),Properties.Resources.selected_files);
         }
     }
 }

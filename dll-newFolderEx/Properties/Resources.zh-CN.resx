@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="cancel_button" xml:space="preserve">
+    <value>取消</value>
+  </data>
   <data name="context_menu_text" xml:space="preserve">
     <value>新建文件夹 Ex</value>
   </data>
@@ -125,5 +128,8 @@
   </data>
   <data name="ok_button" xml:space="preserve">
     <value>确定</value>
+  </data>
+  <data name="selected_files" xml:space="preserve">
+    <value>选中的文件清单：</value>
   </data>
 </root>
