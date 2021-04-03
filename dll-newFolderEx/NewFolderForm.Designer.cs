@@ -81,12 +81,11 @@
             // button3
             // 
             this.button3.AutoSize = true;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button3.Location = new System.Drawing.Point(10, 63);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(35, 31);
             this.button3.TabIndex = 4;
-            this.button3.Text = "📃";
+            this.button3.Text = "i";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -112,6 +111,7 @@
             this.TopMost = true;
             this.Activated += new System.EventHandler(this.NewFolderForm_Activated);
             this.Load += new System.EventHandler(this.NewFolderForm_Load);
+            this.Shown += new System.EventHandler(this.NewFolderForm_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NewFolderForm_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();

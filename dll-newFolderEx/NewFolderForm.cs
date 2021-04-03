@@ -7,7 +7,7 @@ namespace dll_newFolderEx
 {
     public partial class NewFolderForm : Form
     {
-        string[] files;
+        private string[] files;
         public NewFolderForm(ArrayList args)
         {
             if (args.Count < 1) return;
@@ -65,7 +65,8 @@ namespace dll_newFolderEx
                 }
                 else
                 {
-                    return filenames[0].Substring(0, pos);
+                    //FIX #3 尾端空格问题
+                    return filenames[0].Substring(0, pos).Trim();
                 }
 
             }
@@ -158,8 +159,7 @@ namespace dll_newFolderEx
 
         private void NewFolderForm_Activated(object sender, EventArgs e)
         {
-            textbox_common.Focus();
-            textbox_common.SelectAll();
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -170,6 +170,12 @@ namespace dll_newFolderEx
                 sb.AppendLine(f);
             }
             MessageBox.Show(sb.ToString(),Properties.Resources.selected_files);
+        }
+
+        private void NewFolderForm_Shown(object sender, EventArgs e)
+        {
+            textbox_common.Focus();
+            textbox_common.SelectAll();
         }
     }
 }
